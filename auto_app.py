@@ -42,7 +42,7 @@ def upload():
 def datatypes():
     
     #Only for testing
-    # dataf = pd.read_csv(r'/Users/anupam/Documents/csv_file.csv')
+    dataf = pd.read_csv(r'/Users/anupam/Documents/csv_file.csv')
     column_names = dataf.columns.astype('str').tolist()
     data_types = dataf.dtypes.astype('str').tolist()
     datatypes = pd.DataFrame({'column':column_names,'datatype': data_types})
@@ -69,7 +69,25 @@ def datatypes():
 def preprocessing():
     return render_template("preprocessing.html")
 
+@app.route("/impute", methods=["GET","POST"])
+def impute():
+    return render_template("impute.html")
+
+@app.route("/standardize", methods=["GET","POST"])
+def standardize():
+    return render_template("standardize.html")
+
+@app.route("/encoding", methods=["GET","POST"])
+def encoding():
+    return render_template("encoding.html")
+
+@app.route("/binning", methods=["GET","POST"])
+def binning():
+    return render_template("binning.html")
+
+
+
+
 if __name__ == "__main__":
     
-    # excel.init_excel(app)
     app.run(debug=True, port = 5000)
