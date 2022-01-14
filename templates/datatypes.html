@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datatypes</title>
+</head>
+<body>
+    <form>
+    <table>
+        <tr>
+            <th>Column name</th>
+            <th>Datatype</th>
+        </tr>
+        
+        {% for item in data %}
+        <tr>
+            <td>{{item.column}}</td>
+            <td>{{item.datatype}}</td>
+        </tr>                        
+        {% endfor %}
+    
+    <!-- <form action="/datatypes">
+        <label for="datat">Datatype</label>
+        <select name="datat" id="datat">
+          <option value="int64">int64</option>
+          <option value="str">str</option>
+          <option value="float64">float64</option>
+          <option value="boolean">boolean</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form> -->
+    </table>       
+    </form>
+</body>
+</html>
