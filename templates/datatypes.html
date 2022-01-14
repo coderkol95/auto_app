@@ -7,32 +7,23 @@
     <title>Datatypes</title>
 </head>
 <body>
-    <form>
-    <table>
-        <tr>
-            <th>Column name</th>
-            <th>Datatype</th>
-        </tr>
-        
-        {% for item in data %}
-        <tr>
-            <td>{{item.column}}</td>
-            <td>{{item.datatype}}</td>
-        </tr>                        
-        {% endfor %}
-    
-    <!-- <form action="/datatypes">
-        <label for="datat">Datatype</label>
-        <select name="datat" id="datat">
-          <option value="int64">int64</option>
-          <option value="str">str</option>
-          <option value="float64">float64</option>
-          <option value="boolean">boolean</option>
-        </select>
-        <br><br>
-        <input type="submit" value="Submit">
-    </form> -->
-    </table>       
+    <form method="POST", action="/datatypes">
+        <table>
+            <tr>
+                <th>Column</th>
+                <th>Datatype</th>
+            </tr>
+            
+            {% for item in data %}
+            <tr>
+                <td>{{item.column}}</td>
+                <td>
+                    <input type="text" value={{item.datatype}} name="datatype_from_form">
+                </td>
+            </tr>                        
+            {% endfor %}
+        </table>       
+        <input type="submit" value="Finalise datatypes">
     </form>
 </body>
 </html>
