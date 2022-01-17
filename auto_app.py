@@ -18,6 +18,15 @@ def dftolist(dataf):
         list_of_dict.append(internal_dict) 
     return list_of_dict
 
+
+def impute_data(imputation_type):
+    global dataf
+    if imputation_type == 'row_removal':
+        dataf.dropna(inplace=True)
+    if imputation_type == 'mean':
+        dataf.fillna('mean')
+
+
 dataf=pd.DataFrame([])
 
 app = Flask(__name__)
@@ -40,9 +49,9 @@ def upload():
 
 @app.route('/datatypes', methods=["GET","POST"])
 def datatypes():
-    
+    global dataf
     #Only for testing
-    dataf = pd.read_csv(r'/Users/anupam/Documents/csv_file.csv')
+    dataf = pd.read_csv(r'/Users/anupam/Downloads/Telco-Customer-Churn.csv')
     column_names = dataf.columns.astype('str').tolist()
     data_types = dataf.dtypes.astype('str').tolist()
     datatypes = pd.DataFrame({'column':column_names,'datatype': data_types})
@@ -71,7 +80,26 @@ def preprocessing():
 
 @app.route("/impute", methods=["GET","POST"])
 def impute():
-    return render_template("impute.html")
+    global dataf
+
+    """ 
+    More work needs to be done here to better identify null data fields
+    
+    """
+
+    dataf.replace({'?':np.nan, 'null':np.nan, 'Null':np.nan, 'NULL':np.nan, '':np.nan}, inplace=True)
+    nulls = dataf.isnull().sum().to_frame()
+    nulls.reset_index(inplace=True)
+    nulls.columns = ["column","null_count"]
+    nulls_n = nulls[nulls.null_count>0]
+    null_count_frame = dftolist(nulls_n)
+
+    if request.method == "POST":
+        imputation_type = request.form.getlist("imputetype")
+        print(imputation_type)
+        impute_data(imputation_type)
+        return redirect(url_for("preprocessing"))
+    return render_template("impute.html", data = null_count_frame)
 
 @app.route("/standardize", methods=["GET","POST"])
 def standardize():
