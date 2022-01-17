@@ -18,7 +18,13 @@
             <tr>
                 <td>{{item.column}}</td>
                 <td>
-                    <input type="text" value={{item.datatype}} name="datatype_from_form">
+                    <select name="datatype_from_form" id="datatype_from_form">
+                    <option value="str">{{item.datatype}}</option>
+                    <option value="Int64">int</option>
+                    <option value="Float64">float</option>
+                    <option value="bool">boolean</option>
+                    <option value="category">category</option>
+                </select>
                 </td>
             </tr>                        
             {% endfor %}
