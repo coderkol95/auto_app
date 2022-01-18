@@ -20,15 +20,29 @@ def dftolist(dataf):
 def impute_data(nulls_n):
 
     global dataf
-
+    print(dataf.head())
     for col, imp_typ in zip(nulls_n.column, nulls_n.imp_type):
         if imp_typ == 'row_removal':
             dataf = dataf[dataf[col].notnull()]
         
-        print(dataf.loc[dataf.loc[dataf["Age"].isnull(), "Age"].index.tolist(), "Age"])
         if imp_typ == 'mean':
             dataf.loc[dataf[col].isnull(), col] = dataf[col].mean()
-        print(dataf.loc[dataf.loc[dataf["Age"].isnull(), "Age"].index.tolist(), "Age"])
+
+        if imp_typ == 'mode':
+            dataf.loc[dataf[col].isnull(), col] = dataf[col].mode()
+
+        if imp_typ == 'median':
+            dataf.loc[dataf[col].isnull(), col] = dataf[col].median()
+
+        if imp_typ == 'bfill':
+            dataf.loc[dataf[col].isnull(), col] = dataf[col].fillna('bfill')
+
+        if imp_typ == 'ffill':
+            dataf.loc[dataf[col].isnull(), col] = dataf[col].fillna('ffill')
+
+        if imp_typ == 'put_zero':
+            dataf.loc[dataf[col].isnull(), col] = dataf[col].fillna(0)
+    print(dataf.head())
 
 dataf=pd.DataFrame([])
 #Only for testing
@@ -96,13 +110,13 @@ def impute():
 
     dataf.replace({'?':np.nan, 'null':np.nan, 'Null':np.nan, 'NULL':np.nan, '':np.nan}, inplace=True)
     nulls = dataf.isnull().sum().to_frame()
+    nulls['datatype'] = dataf.dtypes.astype('str').tolist()
     nulls_n = nulls[nulls[0]>0]
-    nulls_n.columns=['null_count']
-    
+    nulls_n.columns=['null_count', 'datatype']
     nulls_n.reset_index(inplace=True)
-    print(nulls_n)
 
     nulls_n.rename( columns = {0:"column"}, inplace=True)
+    # print(nulls_n)    
     null_count_frame = dftolist(nulls_n)
 
     if request.method == "POST":

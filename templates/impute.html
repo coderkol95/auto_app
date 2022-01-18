@@ -12,6 +12,7 @@
         <tr>
             <th>Column</th>
             <th>No. of missing values</th>
+            <th>Datatype</th>
             <th>Type of imputation</th>
         </tr>
         
@@ -19,18 +20,16 @@
         <tr>
             <td>{{item.column}}</td>
             <td>{{item.null_count}}</td>
+            <td>{{item.datatype}}</td>
             <td>
-            <label for="imputetype">Choose type of imputation</label>
             <select name="imputetype" id="imputetype">
             <option value="mean">Mean</option>
             <option value="mode">Mode</option>
             <option value="median">Median</option>
             <option value="ffill">Forward-fill</option>
             <option value="bfill">Back-fill</option>
-            <option value="row_removal">Row removal - any column is null</option>
+            <option value="row_removal">Row removal</option>
             <option value="put_zero">Put zero</option>
-            <option value="mice">MICE</option>
-            <option value="knn">KNN</option>
             </select>
             </td>
         </tr>
