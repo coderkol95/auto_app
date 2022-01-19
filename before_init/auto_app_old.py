@@ -63,7 +63,8 @@ def upload():
         dataf = pd.DataFrame(request.get_array(field_name='file'))
         dataf.columns = dataf.iloc[0,:]
         dataf = dataf.iloc[1:,:]
-
+        dd = pd.DataFrame(np.genfromtxt(dataf))
+        print(dd)
         return redirect(url_for("datatypes"))
     return render_template("upload.html")
 
@@ -84,10 +85,11 @@ def datatypes():
         print(data_types)
     
         for var, input_type in zip(column_names, data_types):
-            if input_type=='str': 
+            if input_type=='str':
                 dataf[var] = dataf[var].astype(input_type)
             else:
-                dataf[var].replace({'':np.nan}, inplace=True) 
+                # somehow detect very weird values like 'two' in a column int values
+                dataf[var].replace({'':np.nan}, inplace=True)
                 dataf[var] = dataf[var].astype(input_type)
         return redirect(url_for('preprocessing'))
     print(dataf.head())

@@ -12,11 +12,13 @@
             <tr>
                 <th>Column</th>
                 <th>Datatype</th>
+                <th>Input</th>
             </tr>
             
             {% for item in data %}
             <tr>
                 <td>{{item.column}}</td>
+                <td>{{item.datatype}}</td>
                 <td>
                     <select name="datatype_from_form" id="datatype_from_form">
                     <option value="str">string</option>
