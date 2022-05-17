@@ -18,8 +18,6 @@ def dftolist(dataf):
     return list_of_dict
 
 dataf=pd.DataFrame([])
-#Only for testing
-dataf = pd.read_csv(r'/Users/anupam/Downloads/titanic.csv')
 
 app = Flask(__name__)
 excel.init_excel(app)
@@ -51,7 +49,12 @@ def datatypes():
     datatypes['datatype'].replace({'object':'string'}, inplace=True)
     datadict = dftolist(datatypes)
 
-    # print(datadict)
+    first_five = dataf.head().values
+    first_five_data_dict = dftolist(first_five)
+    print(first_five, first_five_data_dict)
+
+
+
     if request.method == "POST":
         data_types = []
         data_types = request.form.getlist("datatype_from_form")
@@ -67,7 +70,7 @@ def datatypes():
         return redirect(url_for('preprocessing'))
     print(dataf.head())
 
-    return render_template('datatypes.html', data=datadict)
+    return render_template('datatypes.html', data=datadict, first_five_rows = first_five_data_dict)
 
 
 if __name__ == "__main__":
